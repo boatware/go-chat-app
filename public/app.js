@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", (_) => {
     let p = document.createElement("p");
     p.innerHTML = `<strong>${data.username}</strong>: ${data.text}`;
 
-    room.append(p);
+    room.prepend(p);
     room.scrollTop = room.scrollHeight; // Auto scroll to the bottom
   });
 
@@ -18,6 +18,11 @@ window.addEventListener("DOMContentLoaded", (_) => {
     event.preventDefault();
     let username = document.getElementById("input-username");
     let text = document.getElementById("input-text");
+
+    if (text.value === "") {
+      return;
+    }
+
     websocket.send(
       JSON.stringify({
         username: username.value,

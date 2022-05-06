@@ -35,7 +35,12 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	// ensure connection close when function returns
-	defer ws.Close()
+	defer func(ws *websocket.Conn) {
+		err := ws.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(ws)
 	clients[ws] = true
 
 	// if it's zero, no messages were ever sent/saved
